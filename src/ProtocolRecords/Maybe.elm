@@ -1,7 +1,7 @@
 module ProtocolRecords.Maybe (..) where
 
 
-append' someAppendable mx my =
+append' appendableImpl mx my =
     case mx of
         Nothing ->
             my
@@ -15,8 +15,8 @@ append' someAppendable mx my =
                     Just (appendableImpl.append x y)
 
 
-appendable' someAppendable =
-    { append = append' someAppendable }
+appendable' appendableImpl =
+    { append = append' appendableImpl }
 
 
 
@@ -28,9 +28,9 @@ empty =
     Nothing
 
 
-monoid' someAppendable =
+monoid' appendableImpl =
     let
-        appendable = appendable' someAppendable
+        appendable = appendable' appendableImpl
     in
         { appendable = appendable
         , empty = empty

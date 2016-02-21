@@ -1,12 +1,11 @@
 module ProtocolRecords.Function (..) where
 
+append' appendableImpl f g x =
+    appendableImpl.append (f x) (g x)
 
-append' aAppendable f g x =
-    aAppendable.append (f x) (g x)
 
-
-appendable' aAppendable =
-    { append = append' aAppendable }
+appendable' appendableImpl =
+    { append = append' appendableImpl }
 
 
 
