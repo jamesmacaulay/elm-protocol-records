@@ -126,7 +126,7 @@ foldable =
 -- traversable
 
 
-traverse' someApplicative f mx =
+mapInvert' someApplicative f mx =
     case mx of
         Nothing ->
             someApplicative.wrap Nothing
@@ -135,13 +135,13 @@ traverse' someApplicative f mx =
             someApplicative.mappable.map Just (f x)
 
 
-sequenceApplicative' someApplicative =
-    traverse' someApplicative identity
+invert' someApplicative =
+    mapInvert' someApplicative identity
 
 
-traversable =
+invertable' someApplicative =
     { mappable = mappable
     , foldable = foldable
-    , traverse' = traverse'
-    , sequenceApplicative' = sequenceApplicative'
+    , mapInvert = mapInvert' someApplicative
+    , invert = invert' someApplicative
     }

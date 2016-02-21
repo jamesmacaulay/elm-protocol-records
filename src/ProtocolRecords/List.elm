@@ -101,10 +101,10 @@ foldable =
 
 
 
--- traversable
+-- invertable, aka traversable
 
 
-traverse' someApplicative f =
+mapInvert' someApplicative f =
     let
         cons_f x ys =
             someApplicative.apply (someApplicative.mappable.map (::) (f x)) ys
@@ -112,13 +112,13 @@ traverse' someApplicative f =
         foldr cons_f (someApplicative.wrap [])
 
 
-sequenceApplicative' someApplicative =
-    traverse' someApplicative identity
+invert' someApplicative =
+    mapInvert' someApplicative identity
 
 
-traversable =
+invertable' someApplicative =
     { mappable = mappable
     , foldable = foldable
-    , traverse' = traverse'
-    , sequenceApplicative' = sequenceApplicative'
+    , mapInvert = mapInvert' someApplicative
+    , invert = invert' someApplicative
     }
