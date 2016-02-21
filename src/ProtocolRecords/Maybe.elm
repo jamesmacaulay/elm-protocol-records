@@ -12,7 +12,7 @@ append' someAppendable mx my =
                     mx
 
                 Just y ->
-                    someAppendable.append x y
+                    Just (appendableImpl.append x y)
 
 
 appendable' someAppendable =
