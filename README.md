@@ -1,6 +1,27 @@
 # ProtocolRecords
 
+**Do not use this library in your application.** It remains available here for educational purposes only.
+
 **This library is an experiment** in using Elm's extensible records as explicit type class instances. Currently the library implements a few commonly used type classes from Haskell for a few of Elm's core types. For background on this approach, see [_Scrap your type classes_](http://www.haskellforall.com/2012/05/scrap-your-type-classes.html) and various related discussions on the Elm Discuss group ([example](https://groups.google.com/d/msg/elm-discuss/b5KfZfnMl3s/enoFUcG5b8EJ)).
+
+**For better or worse, it turns out this approach is fundamentally flawed.** Elm's type system does not allow many of Haskell's typeclasses to be implemented this way. For example, Applicative is defined as a protocol in this library but using it in a generic way will result in an error from the Elm compiler as the type inference engine cannot reconcile needing multiple concrete types for the same `apply` function:
+
+```
+> applicativeOnePlusTwo {wrap, apply} = wrap (+) `apply` (wrap 1) `apply` (wrap 2)
+-- TYPE MISMATCH --------------------------------------------- repl-temp-000.elm
+
+The argument to function `wrap` is causing a mismatch.
+
+3│                                                         wrap 1)
+                                                                ^
+Function `wrap` is expecting the argument to be:
+
+    number -> number -> number
+
+But it is:
+
+    number
+```
 
 ## Terminology
 
@@ -93,11 +114,3 @@ invertListOfMaybes = (ListImpls.invertable' MaybeImpls.applicative).invert
 invertListOfMaybes [Just 1, Just 2]
 -- Just [1,2]
 ```
-
-## TODO
-
-* add a module for each protocol with
-  - functions to help verify that implementations follow the protocol's laws
-  - factory functions to help with constructing implementations of the protocol
-* provide implementations for more of the types in Elm's standard library
-* add more protocols
